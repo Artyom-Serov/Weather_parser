@@ -23,3 +23,19 @@ engine = create_engine(DATABASE_URL)
 Session = sessionmaker(bind=engine)
 Base.metadata.create_all(engine)
 
+
+# сохранение записи в базу данных
+def save_weather_to_db(weater_data):
+    session = Session()
+    weather = Weather(
+        temp=weater_data['temp'],
+        pressure=weater_data['pressure'],
+        wind_speed=weater_data['wind_speed'],
+        wind_deg=weater_data['wind_deg'],
+        rain=weater_data['rain'],
+        snow=weater_data['snow']
+    )
+    session.add(weather)
+    session.commit()
+    session.close()
+
