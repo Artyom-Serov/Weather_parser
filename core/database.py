@@ -14,15 +14,15 @@ Session = sessionmaker(bind=engine)
 Base.metadata.create_all(engine)
 
 
-def save_weather_to_db(weater_data):
+def save_weather_to_db(weather_data):
     session = Session()
     weather = models.Weather(
-        temp=weater_data['temp'],
-        pressure=weater_data['pressure'],
-        wind_speed=weater_data['wind_speed'],
-        wind_deg=weater_data['wind_deg'],
-        rain=weater_data['rain'],
-        snow=weater_data['snow']
+        temp=weather_data['temp'],
+        pressure=weather_data['pressure'],
+        wind_speed=weather_data['wind_speed'],
+        wind_deg=weather_data['wind_deg'],
+        rain=weather_data['rain'],
+        snow=weather_data['snow']
     )
     session.add(weather)
     session.commit()
