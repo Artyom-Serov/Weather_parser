@@ -1,24 +1,24 @@
 """Модуль для работы с запросами от внешних ресурсов."""
-from typing import Dict, Any
 
 import aiohttp
 import asyncio
-import sqlalchemy
 
-API_KEY = "99ba78ee79a2a24bc507362c5288a81b"
+API_KEY = "f812d2778ff654f9e460892c31bd1678"
 API_URL = "https://api.openweathermap.org/data/2.5/weather?lat=55.42&lon=37.22&appid={}&units=metric".format(API_KEY)
 
 
 async def get_weather():
+    timeout = aiohttp.ClientTimeout(total=10)
     try:
-        async with aiohttp.ClientSession as session:
+        async with aiohttp.ClientSession(timeout=timeout) as session:
             async with session.get(API_URL) as response:
                 data = await response.json()
                 main = data['main']
                 wind = data['wind']
                 rain = data.get('rain', {}).get('1h', None)
                 snow = data.get('snow', {}).get('1h', None)
-                weather_data: dict[str, Any] = {
+
+                weather_data = {
                     "temp": main['temp'],
                     "pressure": main['pressure'],
                     "wind_speed": wind['speed'],
@@ -29,3 +29,6 @@ async def get_weather():
                 return weather_data
     except aiohttp.ClientError as error:
         print(f"Ошибка соединения: {error}")
+    except asyncio.TimeoutError:
+        print("Превышено время ожидания ответа от сервера")
+    return None
