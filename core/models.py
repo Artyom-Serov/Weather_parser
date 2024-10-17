@@ -12,7 +12,7 @@ class Weather(Base):
 
     Attributes:
         id (int): Уникальный идентификатор записи.
-        temp (float): Температура.
+        temperature (float): Температура.
         pressure (int): Атмосферное давление (в мм рт. ст.).
         wind_speed (float): Скорость ветра.
         wind_deg (str): Направление ветра.
@@ -21,7 +21,7 @@ class Weather(Base):
     """
     __tablename__ = 'weather'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    temp = Column(Integer, nullable=False)
+    temperature = Column(Integer, nullable=False)
     pressure = Column(Integer, nullable=False)
     wind_speed = Column(Float, nullable=False)
     wind_deg = Column(String, nullable=False)

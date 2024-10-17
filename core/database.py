@@ -47,16 +47,16 @@ def save_weather_to_db(weather_data):
         weather_data (dict): Словарь с данными о погоде, полученными из
                              OpenWeather API.
                              Ожидает ключи: "temp", "pressure", "wind_speed",
-                             "wind_deg", "rain_1h", "snow_1h"
+                             "wind_deg", "rain_1h", "snow_1h".
     """
     if weather_data is None:
         print("Нет данных для сохранения в базу")
     session = Session()
-    updated_temperature = round(weather_data['temp'])
+    updated_temperature = round(weather_data['temperature'])
     updated_pressure = round(weather_data['pressure'] * 0.75)
     wind_direction = convert_wind_deg_to_direction(weather_data['wind_deg'])
     weather = Weather(
-        temp=updated_temperature,
+        temperature=updated_temperature,
         pressure=updated_pressure,
         wind_speed=weather_data['wind_speed'],
         wind_deg=wind_direction,

@@ -22,18 +22,14 @@ async def get_weather():
         async with aiohttp.ClientSession(timeout=timeout) as session:
             async with session.get(API_URL) as response:
                 data = await response.json()
-                main = data['main']
-                wind = data['wind']
-                rain = data.get('rain', {}).get('1h', None)
-                snow = data.get('snow', {}).get('1h', None)
 
                 weather_data = {
-                    "temp": main['temp'],
-                    "pressure": main['pressure'],
-                    "wind_speed": wind['speed'],
-                    "wind_deg": wind['deg'],
-                    "rain": rain,
-                    "snow": snow
+                    "temperature": data['main']['temp'],
+                    "pressure": data['main']['pressure'],
+                    "wind_speed": data['wind']['speed'],
+                    "wind_deg": data['wind']['deg'],
+                    "rain": data.get('rain', {}).get('1h', 0),
+                    "snow": data.get('snow', {}).get('1h', 0)
                 }
                 return weather_data
     except aiohttp.ClientError as error:
