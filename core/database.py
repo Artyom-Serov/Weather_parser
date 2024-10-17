@@ -12,6 +12,15 @@ Base.metadata.create_all(engine)
 
 
 def convert_wind_deg_to_direction(deg):
+    """
+    Преобразует угол направления ветра в строку с направлением.
+
+    Args:
+        deg (int): Угол направления ветра в градусах.
+
+    Returns:
+        str: Направление ветра (например, "С", "СВ", "В" и т.д.).
+    """
     if deg >= 0 and deg < 45 or deg == 360:
         return "С"
     elif deg >= 45 and deg < 90:
@@ -31,6 +40,15 @@ def convert_wind_deg_to_direction(deg):
 
 
 def save_weather_to_db(weather_data):
+    """
+    Сохраняет данные о погоде в базу данных.
+
+    Args:
+        weather_data (dict): Словарь с данными о погоде, полученными из
+                             OpenWeather API.
+                             Ожидает ключи: "temp", "pressure", "wind_speed",
+                             "wind_deg", "rain_1h", "snow_1h"
+    """
     if weather_data is None:
         print("Нет данных для сохранения в базу")
     session = Session()

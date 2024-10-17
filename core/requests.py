@@ -8,6 +8,15 @@ API_URL = "https://api.openweathermap.org/data/2.5/weather?lat=55.42&lon=37.22&a
 
 
 async def get_weather():
+    """
+    Асинхронно выполняет GET-запрос к OpenWeather API для получения данных
+    о погоде.
+
+    Returns:
+        dict: Словарь с данными о температуре, давлении, скорости и
+        направлении ветра, а также осадках.
+        None: Если произошла ошибка при выполнении запроса.
+    """
     timeout = aiohttp.ClientTimeout(total=10)
     try:
         async with aiohttp.ClientSession(timeout=timeout) as session:

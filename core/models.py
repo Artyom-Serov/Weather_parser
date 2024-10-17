@@ -7,6 +7,18 @@ Base = declarative_base()
 
 
 class Weather(Base):
+    """
+    Модель SQLAlchemy для хранения данных о погоде.
+
+    Attributes:
+        id (int): Уникальный идентификатор записи.
+        temp (float): Температура.
+        pressure (int): Атмосферное давление (в мм рт. ст.).
+        wind_speed (float): Скорость ветра.
+        wind_deg (str): Направление ветра.
+        rain (float): Количество осадков (дождь) за последний час.
+        snow (float): Количество осадков (снег) за последний час.
+    """
     __tablename__ = 'weather'
     id = Column(Integer, primary_key=True, autoincrement=True)
     temp = Column(Integer, nullable=False)
