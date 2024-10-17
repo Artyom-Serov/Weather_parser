@@ -13,5 +13,5 @@ class Weather(Base):
     pressure = Column(Integer, nullable=False)
     wind_speed = Column(Float, nullable=False)
     wind_deg = Column(String, nullable=False)
-    rain = Column(Float, nullable=False)
-    snow = Column(Float, nullable=False)
+    rain = Column(Float, nullable=True)
+    snow = Column(Float, nullable=True)
