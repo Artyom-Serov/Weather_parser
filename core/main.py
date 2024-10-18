@@ -1,7 +1,6 @@
 """Модуль для запуска проекта."""
 
 import asyncio
-import daemon
 from core.database import save_weather_to_db
 from core.requests import get_weather
 
@@ -17,17 +16,13 @@ async def main():
         await asyncio.sleep(180)
 
 
-def run_as_daemon():
-    """
-    Функция для запуска основного процесса в режиме демона.
-    """
-    with daemon.DaemonContext():
-        asyncio.run(main())
-
-
 if __name__ == "__main__":
     """
-    Точка входа для запуска скрипта в фоновом режиме.
+    Точка входа в программу. Запускает основную функцию main и 
+    обрабатывает прерывание программы вручную.
     """
-    run_as_daemon()
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("Программа остановлена вручную")
 
