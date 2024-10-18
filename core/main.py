@@ -21,15 +21,21 @@ def run():
     Основная функция для запуска цикла асинхронных запросов в фоновом режиме.
     Выполняет запросы каждые 3 минуты и сохраняет данные в базу.
     """
+
     async def main():
         while True:
             weather_data = await get_weather()
-            save_weather_to_db(weather_data)
-            logging.info('Данные о погоде успешно сохранены в базу данных.')
+            if weather_data is None:
+                logging.error('Не удалось получить данные о погоде.')
+            else:
+                save_weather_to_db(weather_data)
+                logging.info(
+                    'Данные о погоде успешно сохранены в базу данных.'
+                )
             await asyncio.sleep(180)
 
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
 
 
 def start_daemon():
@@ -37,9 +43,9 @@ def start_daemon():
     Функция для запуска процесса в режиме демона.
     """
     with daemon.DaemonContext(
-            working_directory=os.getcwd(),  # Устанавливаем рабочую директорию
-            stdout=open('weather_daemon_out.log', 'a+', buffering=1),  # Файл для вывода стандартных сообщений
-            stderr=open('weather_daemon_err.log', 'a+', buffering=1),  # Файл для вывода ошибок
+            working_directory=os.getcwd(),
+            stdout=open('weather_daemon_out.log', 'a+', buffering=1),
+            stderr=open('weather_daemon_err.log', 'a+', buffering=1),
             umask=0o002
     ):
         run()
