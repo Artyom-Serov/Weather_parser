@@ -7,7 +7,6 @@ from daemon import DaemonContext
 from core.database import save_weather_to_db
 from core.requests import get_weather
 
-
 async def main():
     """
     Основная асинхронная функция для регулярного запроса данных о погоде и
@@ -21,10 +20,7 @@ async def main():
 
     while True:
         weather_data = await get_weather()
-        if weather_data:
-            save_weather_to_db(weather_data)
-        else:
-            print("Нет данных для сохранения в базу")
+        save_weather_to_db(weather_data)
         await asyncio.sleep(180)
 
 if __name__ == "__main__":
