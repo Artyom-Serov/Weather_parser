@@ -1,11 +1,11 @@
 """Модуль для запуска проекта в фоновом режиме (в режиме демона)."""
 
 import asyncio
-from core.database import save_weather_to_db
-from core.requests import get_weather
-import daemon
 import signal
 import sys
+from daemon import DaemonContext
+from core.database import save_weather_to_db
+from core.requests import get_weather
 
 
 async def main():
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     """
     Точка входа в программу. Запускает основную функцию main в режиме демона.
     """
-    daemon_context = daemon.DaemonContext(
+    daemon_context = DaemonContext(
         stdout=sys.stdout,
         stderr=sys.stderr,
         signal_map={
