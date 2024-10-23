@@ -4,7 +4,10 @@ import aiohttp
 import asyncio
 
 API_KEY = "f812d2778ff654f9e460892c31bd1678"
-API_URL = "https://api.openweathermap.org/data/2.5/weather?lat=55.42&lon=37.22&appid={}&units=metric".format(API_KEY)
+API_URL = (
+    "https://api.openweathermap.org/data/2.5/weather?"
+    "lat=55.42&lon=37.22&appid={}&units=metric".format(API_KEY)
+)
 
 
 async def get_weather():
