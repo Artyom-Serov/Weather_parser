@@ -39,7 +39,7 @@ def convert_wind_deg_to_direction(deg):
         return "СЗ"
 
 
-def save_weather_to_db(weather_data):
+def save_weather_to_db(weather_data, session=None):
     """
     Сохраняет данные о погоде в базу данных.
 
@@ -48,8 +48,12 @@ def save_weather_to_db(weather_data):
                              OpenWeather API.
                              Ожидает ключи: "temperature", "pressure", "wind_speed",
                              "wind_deg", "rain_1h", "snow_1h".
+        session (Session, optional): Сессия базы данных.
+                                    Если None, то используется глобальная сессия.
     """
-    session = Session()
+    if session is None:
+        session = Session()
+
     updated_temperature = round(weather_data['temperature'])
     updated_pressure = round(weather_data['pressure'] * 0.75)
     wind_direction = convert_wind_deg_to_direction(weather_data['wind_deg'])
