@@ -20,7 +20,10 @@ async def main():
 
     while True:
         weather_data = await get_weather()
-        save_weather_to_db(weather_data)
+        if weather_data:
+            save_weather_to_db(weather_data)
+        else:
+            print("Нет данных для сохранения в базу")
         await asyncio.sleep(180)
 
 if __name__ == "__main__":
