@@ -6,7 +6,9 @@ from core.requests import get_weather, API_URL
 
 class TestWeatherRequests(unittest.IsolatedAsyncioTestCase):
     async def test_get_weather_success(self):
-        """Тест успешного выполнения асинхронного запроса к OpenWeather API."""
+        """
+        Тест успешного выполнения асинхронного запроса к OpenWeather API.
+        """
         mock_response = {
             "main": {
                 "temp": 22.5,
@@ -37,7 +39,9 @@ class TestWeatherRequests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(weather_data["snow"], 0)
 
     async def test_get_weather_timeout(self):
-        """Тест обработки ошибки тайм-аута при запросе к API."""
+        """
+        Тест обработки ошибки тайм-аута при запросе к API.
+        """
         with aioresponses() as m:
             m.get(API_URL, exception=asyncio.TimeoutError)
             weather_data = await get_weather()
@@ -45,7 +49,9 @@ class TestWeatherRequests(unittest.IsolatedAsyncioTestCase):
             self.assertIsNone(weather_data)
 
     async def test_get_weather_client_error(self):
-        """Тест обработки ошибки соединения при запросе к API."""
+        """
+        Тест обработки ошибки соединения при запросе к API.
+        """
         with aioresponses() as m:
             m.get(API_URL, exception=aiohttp.ClientError)
             weather_data = await get_weather()
