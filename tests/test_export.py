@@ -11,6 +11,9 @@ TEST_EXPORT_PATH = '../test_weather_export.xlsx'
 
 
 def create_test_bd():
+    """
+    Создает тестовую базу данных с 13 записями для проверки экспорта.
+    """
     conn = sqlite3.connect(TEST_DB_PATH)
     cursor = conn.cursor()
     cursor.execute('''
@@ -27,15 +30,19 @@ def create_test_bd():
 
     for i in range(13):
         cursor.execute('''
-            INSERT INTO weather (temperature, pressure, wind_speed, wind_deg, rain, snow)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', (20 + i, 760, 5.5, 'З', 0.0, 0.0))
+            INSERT INTO weather (temperature, pressure, wind_speed, wind_deg,
+            rain, snow) VALUES (?, ?, ?, ?, ?, ?)''',
+                       (20 + i, 760, 5.5, 'З', 0.0, 0.0)
+        )
 
     conn.commit()
     conn.close()
 
 
 def cleanup_test_files():
+    """
+    Удаляет тестовую базу данных и файл экспорта после тестирования.
+    """
     if os.path.exists(TEST_DB_PATH):
         os.remove(TEST_DB_PATH)
     if os.path.exists(TEST_EXPORT_PATH):
@@ -44,12 +51,15 @@ def cleanup_test_files():
 
 class TestExport(unittest.TestCase):
     def setUp(self):
+        """Создание тестовой базы данных перед каждым тестом."""
         create_test_bd()
 
     def tearDown(self):
+        """Удаление тестовых файлов после каждого теста."""
         cleanup_test_files()
 
     def test_export_to_excel(self):
+        """Тестирование экспорта последних 10 записей в Excel файл."""
         export_to_excel(db_path=TEST_DB_PATH, export_path=TEST_EXPORT_PATH)
         self.assertTrue(os.path.exists(TEST_EXPORT_PATH))
 
