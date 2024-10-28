@@ -4,10 +4,13 @@ import os
 import sqlite3
 import pandas as pd
 
-DB_PATH = '../weather.db'
+# DB_PATH = '../weather.db'
+# EXPORT_PATH = '../weather_data_export.xlsx'
 
 
-def export_to_excel():
+def export_to_excel(
+db_path='../weather.db', export_path='../weather_data_export.xlsx'
+):
     """
     Экспортирует последние 10 записей из базы данных weather.db в файл
     формата .xlsx.
@@ -18,12 +21,12 @@ def export_to_excel():
     Если происходит ошибка при работе с базой данных, выводит
     сообщение об ошибке.
     """
-    if not os.path.exists(DB_PATH):
+    if not os.path.exists(db_path):
         print("Отсутствует искомая база данных для экспорта")
         return
 
     try:
-        conn = sqlite3.connect(DB_PATH)
+        conn = sqlite3.connect(db_path)
         df = pd.read_sql_query(
             'SELECT * FROM weather ORDER BY id DESC LIMIT 10', conn
         )
@@ -33,7 +36,6 @@ def export_to_excel():
                       'Количество осадков (дождь), мм',
                       'Количество осадков (снег), мм']
 
-        export_path = '../weather_data_export.xlsx'
         df.to_excel(export_path, index=False)
         print(f"Данные успешно экспортированы в {export_path}")
 
